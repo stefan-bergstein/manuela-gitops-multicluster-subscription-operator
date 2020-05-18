@@ -2,7 +2,7 @@ apiVersion: apps.open-cluster-management.io/v1
 kind: Subscription
 metadata:
   name: manuela-machine-sensor-subscription
-  namespace: manuela-mcs1-machine-sensor
+  namespace: manuela-mcs1
   labels:
     app: manuela-machine-sensor
   annotations:
