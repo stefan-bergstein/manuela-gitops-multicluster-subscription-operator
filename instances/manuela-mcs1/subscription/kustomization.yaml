@@ -1,0 +1,5 @@
+resources:
+- namespaces.yaml
+- channel.yaml
+- subscription-nginx.yaml
+
