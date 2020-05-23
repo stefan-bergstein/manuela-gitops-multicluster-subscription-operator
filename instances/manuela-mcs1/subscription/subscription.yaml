@@ -1,15 +1,49 @@
+---
 apiVersion: apps.open-cluster-management.io/v1
 kind: Subscription
 metadata:
   name: manuela-machine-sensor-subscription
-  namespace: manuela-mcs1
+  namespace: manuela-mcs1-machine-sensor
   labels:
     app: manuela-machine-sensor
+    name: git-sub
   annotations:
     apps.open-cluster-management.io/github-path: instances/manuela-mcs1/machine-sensor
     apps.open-cluster-management.io/github-branch: master
 spec:
   channel: manuela-mcs1/manuela-mcs-gitops-channel
+#  placement:
+#    local: true
   placement:
-    local: true
+    placementRef: 
+      name: towhichcluster
+      kind: PlacementRule
 
+---
+apiVersion: apps.open-cluster-management.io/v1
+kind: PlacementRule
+metadata:
+  name: towhichcluster
+  namespace: manuela-mcs1-machine-sensor
+  labels:
+    name: git-sub
+spec:
+  clusterReplicas: 1
+  clusterLabels:
+    matchLabels:
+      environment: Dev
+
+---
+#apiVersion: app.k8s.io/v1beta1
+#kind: Application
+#metadata:
+#  name: git-sub-app
+#  namespace: manuela-mcs1-machine-sensor
+#spec:
+#  componentKinds:
+#    - group: apps.open-cluster-management.io
+#      kind: Subscription
+#  descriptor: {}
+#  selector:
+#    matchLabels:
+#      name: git-sub
